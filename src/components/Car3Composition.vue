@@ -3,19 +3,28 @@
   <p>Marca: {{ brand }}</p>
   <p>Modelo: {{ model }}</p>
   <p>Potencia: {{ power }}</p>
-  <button @click="upPower(1000)">Aumentar</button>
-  <button @click="downPower(500)">Disminuir</button>
+  <button @click="upPower()">Aumentar</button>
+  <button @click="upPower(1000)">Aumentar (1000)</button>
+  <button @click="downPower()">Disminuir</button>
+  <button @click="downPower(500)">Disminuir (500)</button>
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
     setup() {
         const brand = "Seat";
         const model = "Leon";
-        const power = 50;
+        let power = ref(50);
 
-        const upPower = (newPower) => { console.log("Aumentando potencia: " + newPower); };
-        const downPower = (newPower)  => { console.log("Disminuyendo potencia: " + newPower); };
+        const upPower = (newPower) => {
+            power.value = power.value + ( (typeof newPower != 'undefined') ? newPower : 1 );
+        };
+        const downPower = (newPower) => {
+            let changeValue =  (typeof newPower != 'undefined') ? newPower : 1;
+            power.value = power.value - changeValue < 0 ? 0 : power.value - changeValue;
+        }
 
         return {
             brand,

@@ -3,8 +3,10 @@
   <p>Marca: {{ brand }}</p>
   <p>Modelo: {{ model }}</p>
   <p>Potencia: {{ power }}</p>
-  <button @click="upPower(1000)">Aumentar</button>
-  <button @click="downPower(500)">Disminuir</button>
+  <button @click="upPower()">Aumentar</button>
+  <button @click="upPower(1000)">Aumentar (1000)</button>
+  <button @click="downPower()">Disminuir</button>
+  <button @click="downPower(500)">Disminuir (500)</button>
 </template>
 
 <script>
@@ -22,11 +24,12 @@ export default {
     },
     methods: {
         upPower(newPower) {
-            console.log("Aumentando potencia: " + newPower);
+            this.power = this.power + ( (typeof newPower != 'undefined') ? newPower : 1 );
         },
         downPower(newPower) {
-            console.log("Disminuyendo potencia: " + newPower);
-        } ,
+            let changeValue =  (typeof newPower != 'undefined') ? newPower : 1;
+            this.power = this.power - changeValue < 0 ? 0 : this.power - changeValue;
+        }
     }
 }
 </script>
